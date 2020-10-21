@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from newsapi.news.models import Article
+from news.models import Article
 
 
 class ArticleSerializer(serializers.Serializer):

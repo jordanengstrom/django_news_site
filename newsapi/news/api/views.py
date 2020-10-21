@@ -1,8 +1,8 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from newsapi.news.models import Article
-from newsapi.news.api.serializers import ArticleSerializer
+from news.models import Article
+from news.api.serializers import ArticleSerializer
 
 
 # Function based view
@@ -10,11 +10,11 @@ from newsapi.news.api.serializers import ArticleSerializer
 def article_list_create_api_view(request):
     if request.method == 'GET':
         articles = Article.objects.filter(active=True)
-        serializer = Article(articles, many=True)
+        serializer = ArticleSerializer(articles, many=True)
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = Article(data=request.data)
+        serializer = ArticleSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -35,11 +35,11 @@ def article_detail_api_view(request, pk):
                                    }
                          }, status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
-        serializer = Article(article)
+        serializer = ArticleSerializer(article)
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = Article(article, data=request.data)
+        serializer = ArticleSerializer(article, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
